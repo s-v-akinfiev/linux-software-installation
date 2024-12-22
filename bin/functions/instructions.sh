@@ -42,11 +42,11 @@ run_instruction() {
     bash -c "source $script; run"
 
     if [[ $? -eq 0 ]]; then
-        print_success "$script installed successfully."
+        print_success "$script instruction has been executed successfully."
         return 0
     fi
 
-    print_error "Failed to install $script."
+    print_error "Failed to execute instruction $script."
     return 1
 }
 
@@ -115,7 +115,7 @@ run_instructions() {
   fi
 
   if [[ ${#skipped_installations[@]} -gt 0 ]]; then
-      print_info "Skipped Installations (Already Installed):"
+      print_info "Skipped instructions (already installed):"
       for software in "${skipped_installations[@]}"; do
           echo -e "${CYAN}  - $software${RESET}"
       done
