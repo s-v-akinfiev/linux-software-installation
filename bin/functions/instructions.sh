@@ -11,6 +11,45 @@ verify_sudo() {
     fi
 }
 
+run_instruction() {
+    local migration_name="$1"
+    local script="./instructions/$migration_name.sh"
+
+    if [[ ! -f "$script" ]]; then
+        print_error "Migration $migration_name not found in ./instructions/"
+        return 1
+    fi
+
+    title=$(bash -c "source $script; get_title" 2>/dev/null)
+    if [[ -z "$title" ]]; then
+        print_warning "No title found for script: $script"
+        title="(Unknown instruction)"
+    fi
+
+    if ! bash -c "source $script; declare -f run" &>/dev/null; then
+        print_error "No 'run' function defined in: $script"
+        return 1
+    fi
+
+    if bash -c "source $script; declare -f is_installed" &>/dev/null; then
+      if bash -c "source $script; is_installed"; then
+          print_info "Instruction $script is already installed."
+          return 0
+      fi
+    fi
+
+    print_info "Running instruction $script: $title"
+    bash -c "source $script; run"
+
+    if [[ $? -eq 0 ]]; then
+        print_success "$script installed successfully."
+        return 0
+    fi
+
+    print_error "Failed to install $script."
+    return 1
+}
+
 run_instructions() {
   INSTRUCTIONS_DIR="./instructions"
   if [[ ! -d "$INSTRUCTIONS_DIR" ]]; then
