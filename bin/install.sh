@@ -27,6 +27,7 @@ fi
 
 success_instructions=()
 failed_instructions=()
+skipped_instructions=()
 print_title 'Running instructions ...'
 
 for script in "$INSTRUCTIONS_DIR"/*.sh; do
@@ -42,38 +43,54 @@ for script in "$INSTRUCTIONS_DIR"/*.sh; do
 
     if ! bash -c "source $script; declare -f run" &>/dev/null; then
         print_warning "No 'run' function defined in: $script"
-        echo -e
+        print_line
 
         failed_instructions+=("$script")
         continue
+    fi
+
+    if bash -c "source $script; declare -f is_installed" &>/dev/null; then
+      if bash -c "source $script; is_installed"; then
+          skipped_installations+=("$title ($script)")
+
+          print_info "Instruction $script is already installed. Skipping."
+          print_line
+          continue
+      fi
     fi
 
     print_info "Running instruction $script: $title"
     bash -c "source $script; run"
 
     if [[ $? -eq 0 ]]; then
-        success_instructions+=("$script")
+        success_instructions+=("$title ($script)")
 
         print_success "$script installed successfully."
     else
-      failed_instructions+=("$script")
+      failed_instructions+=("$title ($script)")
 
       print_error "Failed to install $script."
     fi
 
     print_line
-    echo -e
 done
 
 if [[ ${#success_instructions[@]} -gt 0 ]]; then
-    echo "Successfully executed the following instructions:"
+    print_success "Successfully executed the following instructions:"
     for software in "${success_instructions[@]}"; do
         echo -e "${GREEN}  - $software${RESET}"
     done
 fi
 
+if [[ ${#skipped_installations[@]} -gt 0 ]]; then
+    print_info "Skipped Installations (Already Installed):"
+    for software in "${skipped_installations[@]}"; do
+        echo -e "${CYAN}  - $software${RESET}"
+    done
+fi
+
 if [[ ${#failed_instructions[@]} -gt 0 ]]; then
-    echo "Failed instructions:"
+    print_error "Failed instructions:"
     for software in "${failed_instructions[@]}"; do
         echo -e "${RED}  - $software${RESET}"
     done

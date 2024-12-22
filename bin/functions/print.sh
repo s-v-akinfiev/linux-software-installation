@@ -57,4 +57,5 @@ print_debug() {
 
 print_line() {
     echo -e "${WHITE}------------------------------${RESET}"
+    echo -e
 }
