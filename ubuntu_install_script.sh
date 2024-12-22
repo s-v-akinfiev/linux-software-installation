@@ -1,11 +1,4 @@
-#!/usr/bin/env bash
-set -e
-set -x
-
-# Upgrade system
-sudo apt update && sudo apt -y upgrade
-
-# System confuration
+m# System confuration
 dconf write /org/gnome/desktop/sound/event-sounds false
 sudo swapoff -a && sudo sed -i '/ swap / s/^/#/' /etc/fstab
 gsettings set org.gnome.shell.extensions.dash-to-dock show-trash false
@@ -31,29 +24,6 @@ sudo apt -y install vim htop curl git telegram-desktop libfuse2 libnss3-tools
 sudo apt-get install -y keepassxc vlc
 if ! command -v postman &> /dev/null; then sudo snap install postman; fi
 if ! command -v sublime-text &> /dev/null; then sudo snap install sublime-text --classic; fi
-
-## Slack
-if command -v slack &> /dev/null; then sudo snap remove slack; fi
-wget https://packagecloud.io/slacktechnologies/slack/gpgkey -O slack.gpg
-sudo apt-key add slack.gpg
-echo "deb https://packagecloud.io/slacktechnologies/slack/debian/ jessie main" | sudo tee /etc/apt/sources.list.d/slack.list
-sudo apt-get update
-sudo apt-get install slack-desktop
-rm slack.gpg
-
-## Guake
-if ! command -v guake &> /dev/null
-then
-  sudo apt -y install guake
-  guake --save-preferences=myprefs.cfg
-  sed -i "3i start-at-login=true" myprefs.cfg
-  sed -i "3i use-trayicon=false" myprefs.cfg
-  echo -e "\n[keybindings/global]" | tee -a myprefs.cfg
-  echo -e "show-hide='F1'" | tee -a myprefs.cfg
-  guake --restore-preferences=myprefs.cfg
-  ## TODO: seems it does not remove the dummy file
-  rm myprefs.cfg && guake &
-fi
 
 ## Chrome
 if ! command -v google-chrome-stable &> /dev/null
