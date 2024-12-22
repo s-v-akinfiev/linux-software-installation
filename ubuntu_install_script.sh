@@ -1,9 +1,3 @@
-README.md
-
-git clone
-./ubuntu_install_script.sh
-
-
 sudo service docker stop
 sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
 reboot
