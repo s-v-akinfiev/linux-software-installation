@@ -7,8 +7,8 @@ is_installed() {
 }
 
 run() {
-    wget https://github.com/th-ch/youtube-music/releases/download/v1.19.0/youtube-music_1.19.0_amd64.deb
-    sudo dpkg -i youtube-music_1.19.0_amd64.deb
+    wget https://github.com/th-ch/youtube-music/releases/download/v3.7.1/youtube-music_3.7.1_amd64.deb
+    sudo dpkg -i youtube-music_3.7.1_amd64.deb
     sudo apt-get install -f
-    rm youtube-music_1.19.0_amd64.deb
+    rm youtube-music_3.7.1_amd64.deb
 }
