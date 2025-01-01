@@ -57,5 +57,7 @@ print_debug() {
 
 print_line() {
     echo -e "${WHITE}------------------------------${RESET}"
-    echo -e
+    if [[ "$1" != "no-space" ]]; then
+        echo -e
+    fi
 }
