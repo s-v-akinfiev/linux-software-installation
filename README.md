@@ -22,7 +22,7 @@ cd ubuntu-software-installation
 ````
 4. Run installation script
 ````bash
-bin/install.sh
+bin/run.sh
 ````
 ***
 
@@ -30,5 +30,5 @@ bin/install.sh
 * If you need to run a single instruction you can provide instruction file name without extension as an argument. 
 E.g. to run `instructions/ubuntu-upgrade.sh` execute following command:
 ````bash
-bin/install.sh ubuntu-upgrade
+bin/run.sh ubuntu-upgrade
 ````
