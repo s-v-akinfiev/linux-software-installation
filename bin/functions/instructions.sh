@@ -81,14 +81,20 @@ run_instructions() {
           continue
       fi
 
-      if bash -c "source $script; declare -f is_installed" &>/dev/null; then
-        if bash -c "source $script; is_installed"; then
-            skipped_installations+=("$title ($script)")
+      if bash -c "source $script; declare -f is_manual" &>/dev/null; then
+          if ! bash -c "source $script; is_manual"; then
+              continue
+          fi
+      fi
 
-            print_info "Instruction $script is already installed. Skipping."
-            print_line
-            continue
-        fi
+      if bash -c "source $script; declare -f is_installed" &>/dev/null; then
+          if bash -c "source $script; is_installed"; then
+              skipped_installations+=("$title ($script)")
+
+              print_info "Instruction $script is already installed. Skipping."
+              print_line
+              continue
+          fi
       fi
 
       print_info "Running instruction $script: $title"

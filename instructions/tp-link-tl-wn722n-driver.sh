@@ -2,6 +2,10 @@ get_title() {
     echo "TP-Link TL-WN722N driver installation"
 }
 
+is_manual() {
+    return 1
+}
+
 run() {
     sudo apt install -y build-essential dkms git
     git clone https://github.com/aircrack-ng/rtl8188eus.git
