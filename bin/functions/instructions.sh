@@ -59,7 +59,7 @@ run_instructions() {
 
   success_instructions=()
   failed_instructions=()
-  skipped_instructions=()
+  skipped_installations=()
   print_title 'Running instructions ...'
 
   for script in "$INSTRUCTIONS_DIR"/*.sh; do
