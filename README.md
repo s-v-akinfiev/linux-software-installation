@@ -1,4 +1,4 @@
-# Ubuntu software installation scripts
+# Linux software installation scripts
 ## Description
 This repository provides you an ability to automatically install all software
 you need. It can store a list of instructions that you can reuse once you reinstall Ubuntu.
